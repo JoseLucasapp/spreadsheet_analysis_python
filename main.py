@@ -1,13 +1,15 @@
 import pandas as pd
 import requests
 import io
+import numpy
 
 
 class Analysis:
     def __init__(self, link):
         get_content = requests.get(link).content
-        self.csv = pd.read_html(io.StringIO(get_content.decode('utf-8')))
+        self.csv = pd.read_html(io.StringIO(get_content.decode('ISO-8859-1')))
         self.sheet_titles = {}
+        self.sheet_finals = []
 
     def get_title_values_from_sheet(self):
         for index, data in enumerate(self.csv[1].get('Unnamed: 1')):
@@ -18,10 +20,14 @@ class Analysis:
                 {"state": self.csv[1].get('Unnamed: 5')[index]}
             ]
 
+    def get_all_finals_from_sheet(self):
+        for index, data in enumerate(self.csv[0].get('Unnamed: 1')):
+            self.sheet_finals.append(
+                {"champion": data, "second": self.csv[0].get('Unnamed: 2')[index]})
+
     def caller(self):
-        print(self.csv[0])
         self.get_title_values_from_sheet()
-        print(self.sheet_titles)
+        self.get_all_finals_from_sheet()
 
 
 if (__name__ == '__main__'):
