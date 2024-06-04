@@ -1,7 +1,6 @@
 import pandas as pd
 import requests
 import io
-import numpy
 
 
 class Analysis:
@@ -10,6 +9,7 @@ class Analysis:
         self.csv = pd.read_html(io.StringIO(get_content.decode('ISO-8859-1')))
         self.sheet_titles = {}
         self.sheet_finals = []
+        self.titles_by_state = {}
 
     def get_title_values_from_sheet(self):
         for index, data in enumerate(self.csv[1].get('Unnamed: 1')):
@@ -25,9 +25,22 @@ class Analysis:
             self.sheet_finals.append(
                 {"champion": data, "second": self.csv[0].get('Unnamed: 2')[index]})
 
+    def organize_titles_by_state(self):
+        for i in self.sheet_titles:
+            state = self.sheet_titles[i][3]['state']
+            if state not in self.titles_by_state:
+                self.titles_by_state[f'{state}'] = self.sheet_titles[i][0]['titles']
+            else:
+                self.titles_by_state[f'{state}'] += self.sheet_titles[i][0]['titles']
+
     def caller(self):
         self.get_title_values_from_sheet()
         self.get_all_finals_from_sheet()
+        self.organize_titles_by_state()
+
+        print(self.sheet_finals)
+        print(self.sheet_titles)
+        print(self.titles_by_state)
 
 
 if (__name__ == '__main__'):
