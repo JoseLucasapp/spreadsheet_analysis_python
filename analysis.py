@@ -1,6 +1,8 @@
 import pandas as pd
 import requests
 import io
+from matplotlib import pyplot as plt
+import numpy as np
 
 
 class Analysis:
@@ -37,14 +39,3 @@ class Analysis:
         self.get_title_values_from_sheet()
         self.get_all_finals_from_sheet()
         self.organize_titles_by_state()
-
-        print(self.sheet_finals)
-        print(self.sheet_titles)
-        print(self.titles_by_state)
-
-
-if (__name__ == '__main__'):
-    sheet_link = 'https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vS5qVKbg9hoLHg00Y5AqZu5XQxylCKHDjlOL0y3MtDRAVHmJcdkCp9tzi5m9kXwES8ObCqplRXHSW4M/pubhtml#'
-    main = Analysis(sheet_link)
-
-    main.caller()
