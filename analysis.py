@@ -35,7 +35,29 @@ class Analysis:
             else:
                 self.titles_by_state[f'{state}'] += self.sheet_titles[i][0]['titles']
 
+    def count_finals(self):
+        finals = []
+
+        for i in self.sheet_finals:
+            found = False
+            for a in finals:
+                if (i['champion'] == a['champion'] and i['second'] == a['second']) or (i['champion'] == a['second'] and i['second'] == a['champion']):
+                    a['games'] += 1
+                    found = True
+                    break
+
+            if not found:
+                finals.append(
+                    {'champion': i['champion'], 'second': i['second'], 'games': 1})
+
     def caller(self):
         self.get_title_values_from_sheet()
         self.get_all_finals_from_sheet()
         self.organize_titles_by_state()
+        self.count_finals()
+
+
+# To test
+sheet_link = 'https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vS5qVKbg9hoLHg00Y5AqZu5XQxylCKHDjlOL0y3MtDRAVHmJcdkCp9tzi5m9kXwES8ObCqplRXHSW4M/pubhtml#'
+data = Analysis(sheet_link)
+data.caller()
