@@ -14,6 +14,7 @@ class GUI:
         self.chart_generator = Generate_Charts(self.analysis.sheet_titles)
 
         self.root = Tk()
+        self.style = ttk.Style()
         self.root.minsize(width=500, height=500)
         self.selected = 'Nenhum'
         self.photo = None
@@ -34,14 +35,23 @@ class GUI:
         label_image_chart.pack()
 
     def select_field(self, options):
+
+        self.style.configure("TCombobox",
+                             font=("Helvetica", 12),
+                             padding=(35, 5))
+
         self.combobox = ttk.Combobox(
-            self.root, values=options)
+            self.root, values=options, style="TCombobox", cursor="hand2")
         self.combobox.pack(pady=2)
 
         self.combobox.bind("<<ComboboxSelected>>", self.selected_option)
 
+        self.style.configure("TLabel",
+                             font=("Helvetica", 14, "bold"),
+                             padding=(35, 5))
+
         self.label_selected = ttk.Label(
-            self.root, text=f"Selecionado: {self.selected or 'Nenhum'}")
+            self.root, text=f"Selecionado: {self.selected or 'Nenhum'}", style="TLabel")
         self.label_selected.pack(pady=2)
 
     def selected_option(self, event):
@@ -51,11 +61,10 @@ class GUI:
         self.label_selected.config(text=f"Selecionado: {self.selected}")
 
     def button(self):
-        style = ttk.Style()
-        style.configure("TButton",
-                        font=("Helvetica", 16, "bold"),
-                        relief="flat",
-                        padding=(30, 10))
+        self.style.configure("TButton",
+                             font=("Helvetica", 12, "bold"),
+                             relief="flat",
+                             padding=(25, 10))
         button = ttk.Button(self.root, text="Todos os campeões", cursor="hand2", style="TButton", command=self
                             .on_click_display_chart)
         button.pack(pady=5)
