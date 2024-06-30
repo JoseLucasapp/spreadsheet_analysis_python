@@ -8,8 +8,8 @@
 ### Sumary
 1. [About the project](#about)
 2. [How to Use](#how-to-use)
-2. [Spreadsheet](#spreadsheet)
-3. [Author](#author)
+3. [Spreadsheet](#spreadsheet)
+4. [Author](#author)
 
 ### About
 
