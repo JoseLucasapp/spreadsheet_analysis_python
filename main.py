@@ -23,6 +23,13 @@ class GUI:
         self.selected = 'Nenhum'
         self.photo = None
 
+    def display_chart(self):
+        image = Image.open('./chart.png')
+        resized = image.resize((400, 400))
+        self.photo = ImageTk.PhotoImage(image=resized)
+        label_image_chart = ttk.Label(self.root, image=self.photo)
+        label_image_chart.pack()
+
     def select_field(self, options):
         self.combobox = ttk.Combobox(
             self.root, values=options)
@@ -37,12 +44,7 @@ class GUI:
     def selected_option(self, event):
         self.selected = self.combobox.get()
         self.chart_generator.finals_win_percentage(self.selected)
-        image = Image.open('./chart.png')
-        resized = image.resize((400, 400))
-        self.photo = ImageTk.PhotoImage(image=resized)
-
-        label_image_chart = ttk.Label(self.root, image=self.photo)
-        label_image_chart.pack()
+        self.display_chart()
         self.label_selected.config(text=f"Selecionado: {self.selected}")
 
     def caller(self):
