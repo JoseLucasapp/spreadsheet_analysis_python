@@ -20,9 +20,13 @@ class GUI:
         self.selected = 'Nenhum'
         self.photo = None
 
-    def display_chart(self):
+    def on_click_display_chart(self):
+        self.chart_generator.championship_chart()
+        self.display_chart(600, 500)
+
+    def display_chart(self, w=400, h=400):
         image = Image.open('./chart.png')
-        resized = image.resize((400, 400))
+        resized = image.resize((w, h))
         self.photo = ImageTk.PhotoImage(image=resized)
         label_image_chart = ttk.Label(self.root, image=self.photo)
         label_image_chart.pack()
@@ -30,13 +34,13 @@ class GUI:
     def select_field(self, options):
         self.combobox = ttk.Combobox(
             self.root, values=options)
-        self.combobox.pack(pady=20)
+        self.combobox.pack()
 
         self.combobox.bind("<<ComboboxSelected>>", self.selected_option)
 
         self.label_selected = ttk.Label(
             self.root, text=f"Selecionado: {self.selected or 'Nenhum'}")
-        self.label_selected.pack(pady=20)
+        self.label_selected.pack()
 
     def selected_option(self, event):
         self.selected = self.combobox.get()
@@ -44,7 +48,13 @@ class GUI:
         self.display_chart()
         self.label_selected.config(text=f"Selecionado: {self.selected}")
 
+    def button(self):
+        button = ttk.Button(self.root, text="Todos os campeões", command=self
+                            .on_click_display_chart)
+        button.pack()
+
     def caller(self):
+        self.button()
         self.select_field(self.analysis.champions)
         self.root.mainloop()
 
