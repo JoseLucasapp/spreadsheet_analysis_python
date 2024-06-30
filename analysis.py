@@ -14,6 +14,12 @@ class Analysis:
         self.titles_by_state = {}
         self.champions = []
 
+        self.get_title_values_from_sheet()
+        self.get_all_finals_from_sheet()
+        self.organize_titles_by_state()
+        self.count_finals()
+        self.champions = list(self.sheet_titles.keys())
+
     def get_title_values_from_sheet(self):
         for index, data in enumerate(self.csv[1].get('Unnamed: 1')):
             self.sheet_titles[data] = [
@@ -50,15 +56,3 @@ class Analysis:
             if not found:
                 finals.append(
                     {'champion': i['champion'], 'second': i['second'], 'games': 1})
-
-    def caller(self):
-        self.get_title_values_from_sheet()
-        self.get_all_finals_from_sheet()
-        self.organize_titles_by_state()
-        self.count_finals()
-        self.champions = list(self.sheet_titles.keys())
-
-
-sheet_link = 'https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vS5qVKbg9hoLHg00Y5AqZu5XQxylCKHDjlOL0y3MtDRAVHmJcdkCp9tzi5m9kXwES8ObCqplRXHSW4M/pubhtml#'
-data = Analysis(sheet_link)
-data.caller()
