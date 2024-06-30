@@ -12,6 +12,7 @@ class Analysis:
         self.sheet_titles = {}
         self.sheet_finals = []
         self.titles_by_state = {}
+        self.champions = []
 
     def get_title_values_from_sheet(self):
         for index, data in enumerate(self.csv[1].get('Unnamed: 1')):
@@ -55,9 +56,9 @@ class Analysis:
         self.get_all_finals_from_sheet()
         self.organize_titles_by_state()
         self.count_finals()
+        self.champions = list(self.sheet_titles.keys())
 
 
-# To test
 sheet_link = 'https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vS5qVKbg9hoLHg00Y5AqZu5XQxylCKHDjlOL0y3MtDRAVHmJcdkCp9tzi5m9kXwES8ObCqplRXHSW4M/pubhtml#'
 data = Analysis(sheet_link)
 data.caller()
