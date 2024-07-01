@@ -2,6 +2,7 @@
 from tkinter import ttk
 from tkinter import *
 from PIL import Image, ImageTk
+import chardet
 
 from analysis import Analysis
 
@@ -35,13 +36,16 @@ class GUI:
         label_image_chart.pack()
 
     def select_field(self, options):
+        x = []
+        for i in options:
+            x.append(i.encode('latin-1').decode('utf-8'))
 
         self.style.configure("TCombobox",
                              font=("Helvetica", 12),
                              padding=(35, 5))
 
         self.combobox = ttk.Combobox(
-            self.root, values=options, style="TCombobox", cursor="hand2")
+            self.root, values=x, style="TCombobox", cursor="hand2")
         self.combobox.pack(pady=2)
 
         self.combobox.bind("<<ComboboxSelected>>", self.selected_option)
@@ -56,9 +60,27 @@ class GUI:
 
     def selected_option(self, event):
         self.selected = self.combobox.get()
+        print(self.selected)
+        try:
+            try:
+                text = self.selected.encode('utf-8')
+                result = chardet.detect(text)
+                encoding = result['encoding']
+                decoded_text = text.decode(encoding)
+            except:
+                text = self.selected.encode('latin-1')
+                result = chardet.detect(text)
+                encoding = result['encoding']
+                decoded_text = text.decode(encoding)
+        except:
+            decoded_text = self.selected
+
+        self.selected = decoded_text
+        print(self.selected)
         self.chart_generator.finals_win_percentage(self.selected)
         self.display_chart()
-        self.label_selected.config(text=f"Selecionado: {self.selected}")
+        self.label_selected.config(
+            text=f"Selecionado: {self.selected.encode('latin-1').decode('utf-8')}")
 
     def button(self):
         self.style.configure("TButton",
